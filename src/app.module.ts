@@ -1,15 +1,21 @@
 import { Module } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AssetsModule } from './assets/assets.module';
-import { LocalStorageService } from './localStorage/localStorage.service';
-import { MasterModule } from './master/master.module';
-import { SyncService } from './sync/sync.service';
-import { UtilsService } from './utils/utils.service';
+import { ApplicationModule } from './application/application.module';
 
 @Module({
-  imports: [MasterModule, AssetsModule],
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: path.join(process.cwd(), 'web'),
+      exclude: ['/assets/*', '/api/*'],
+    }),
+    AssetsModule,
+    ApplicationModule,
+  ],
   controllers: [AppController],
-  providers: [AppService, SyncService, LocalStorageService, UtilsService],
+  providers: [AppService],
 })
 export class AppModule {}

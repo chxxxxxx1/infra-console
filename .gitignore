@@ -2,3 +2,6 @@ node_modules
 dist
 install-web/**/*
 webroot/
+fe-store
+__MACOSX
+.DS_Store
